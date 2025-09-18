@@ -12,6 +12,12 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(logger("dev"));
 
+app.use((req, res, next) => {
+  const ipAddress = req.ip || req.headers["x-forwarded-for"][0];
+  console.log(ipAddress);
+  next();
+});
+
 app.get("/", function (req, res) {
   const test = Math.floor(Math.random() * 10000);
   res.status(200).json({ message: "Server running", number: test });
